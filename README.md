@@ -1,73 +1,48 @@
-# 🐾 AnimaLink - Formulário de Contato Inteligente com Integração Google Forms
+# 🎓 Trabalho Acadêmico: Formulário de Contato Inteligente — AnimaLink
 
-Este é um componente de formulário de contato robusto, responsivo e minimalista, desenvolvido sob medida para a landing page da **AnimaLink** (plataforma de IA para saúde mental e enriquecimento cognitivo de pets). 
+Este repositório contém o componente de formulário de contato desenvolvido como parte de um **projeto acadêmico integrado** para a startup fictícia **AnimaLink** (uma plataforma de IA voltada para a saúde mental e enriquecimento cognitivo de pets). 
 
-O formulário utiliza a paleta de cores institucional **"Serenidade Digital"** da marca (Branco Gelo, Azul Profundo e Lavanda Suave) e conta com um sistema de envio 100% oculto e assíncrono conectado diretamente ao **Google Forms/Google Sheets**.
-
----
-
-## ✨ Funcionalidades
-
-- **Validação Avançada com UX Writing:** Validação rigorosa via JavaScript que impede o envio de campos vazios, e-mails com formatos inválidos ou sequências aleatórias.
-- **Máscara de Telefone em Tempo Real:** Captura os dígitos inseridos e formata automaticamente no padrão `(DD) 99999-9999`, impedindo a inserção de letras ou caracteres especiais.
-- **Feedback Visual Elegante (UI/UX):** Campos inválidos recebem instantaneamente um destaque visual suave em tom de alerta (terracota sutil) e mensagens de erro descritivas.
-- **Botão Inteligente com Loader (Estado de Envio):** O botão de envio exibe um indicador de carregamento (*spinner* animado) e entra em estado desativado (`disabled`) durante a transmissão para evitar cliques duplicados.
-- **Integração Oculta (Modo Shadow/AJAX):** Utiliza a API `fetch` com modo `no-cors` para enviar os dados para o endpoint `/formResponse` do Google Forms. O usuário permanece no site sem redirecionamentos ou uso de iframes.
+Enquanto a proposta de negócio e a interface principal (Landing Page) foram estruturadas na ferramenta Gamma App, este repositório hospeda a implementação técnica, funcional e isolada do formulário de captura de leads.
 
 ---
 
-## 🎨 Paleta de Cores Aplicada (CSS Variables)
+## 📌 Contexto do Projeto
 
-- `Branco Gelo (#F8FAFF)`: Fundo da página, trazendo leveza e modernidade.
-- `Azul Profundo (#1A2B4C)`: Cor principal de textos e títulos, transmitindo autoridade tecnológica.
-- `Lavanda Suave / Roxo Moderno (#6C63FF)`: Cor de destaque para botões, focos de inputs e interações primárias.
-- `Alerta Terracota (#E29578)`: Utilizado pontualmente para destacar erros e validações sem quebrar a harmonia visual.
+O objetivo do trabalho foi unir conceitos de **UX Writing**, **Front-end (HTML5/CSS3/JavaScript)** e **Integração de Sistemas** para resolver uma dor real de mercado: a ansiedade de separação em animais de estimação e a culpa dos tutores urbanos. 
 
----
-
-## 🛠️ Como Configurar a Integração com o Google Forms
-
-Para ativar o recebimento automático de dados na sua planilha do Google, siga estes 3 passos:
-
-1. **Mapeie os IDs das Perguntas:**
-   - No painel de edição do seu Google Forms, clique nos três pontos (canto superior direito) e selecione **"Gerar link preenchido automaticamente"**.
-   - Digite respostas fáceis de identificar em cada campo (ex: `NOMEDISP`, `EMAILDISP`) e clique em **"Gerar link"**.
-   - No link copiado, identifique os códigos de entrada de cada campo, que se parecem com: `entry.1111111111`.
-
-2. **Substitua no Código JavaScript:**
-   - Abra o arquivo de código do formulário e localize o objeto `GOOGLE_ENTRIES`.
-   - Substitua os códigos fictícios pelos IDs reais gerados pelo seu formulário:
-     ```javascript
-     const GOOGLE_ENTRIES = {
-         name: 'entry.SEU_ID_AQUI',
-         email: 'entry.SEU_ID_AQUI',
-         phone: 'entry.SEU_ID_AQUI',
-         message: 'entry.SEU_ID_AQUI'
-     };
-     ```
-
-3. **Configure a URL de Recebimento:**
-   - Pegue a URL inicial do seu formulário (até o ID longo) e certifique-se de que ela termina com `/formResponse` em vez de `/viewform`. Substitua na constante:
-     ```javascript
-     const GOOGLE_FORMS_URL = 'https://docs.google.com/forms/d/e/SEU_ID_LONGO_DO_FORMULARIO/formResponse';
-     ```
+O formulário foi totalmente estilizado com a identidade visual da marca (**"Serenidade Digital"**) e programado para coletar dados de forma assíncrona, alimentando um banco de dados integrado no Google Sheets através do Google Forms.
 
 ---
 
-## 📊 Como Aceder às Respostas
+## ✨ Funcionalidades Técnicas Implementadas
 
-1. Abra o seu **Google Forms**.
-2. Vá até a aba **"Respostas"** para ver a listagem de leads em tempo real e gráficos estatísticos.
-3. Para uma gestão profissional, clique no ícone verde de **Criar Planilha** (Google Sheets). Uma planilha vinculada será gerada automaticamente, onde cada novo contacto do site criará uma nova linha organizada com data e hora.
+- **Validação Avançada de Dados:** Scripts em JavaScript que impedem o envio de dados falsos, e-mails estruturalmente inválidos ou campos em branco, aplicando conceitos de UX para guiar o usuário.
+- **Máscara Dinâmica de Telefone:** Filtro em tempo real que aceita apenas números e aplica automaticamente a formatação `(DD) 99999-9999`, bloqueando letras e caracteres especiais.
+- **Feedback Visual de UI/UX:** Alertas visuais sofisticados usando variáveis CSS. Os campos incorretos ganham destaque em tom terracota suave (alerta funcional) sem quebrar a estética minimalista.
+- **Gerenciamento de Estado do Botão (Loader):** Mecanismo que desativa o botão de envio (`disabled`) e exibe um *spinner* animado por CSS durante a transmissão, evitando requisições duplicadas.
+- **Integração Oculta com Google Forms (AJAX/Fetch):** Envio de dados em segundo plano utilizando a API `fetch` com modo `no-cors` voltado para o endpoint `/formResponse`. O usuário conclui o fluxo sem ser redirecionado para páginas externas do Google.
+
+---
+
+## 🎨 Paleta de Cores Institucional (CSS Variables)
+
+- `Branco Gelo (#F8FAFF)`: Fundo sutil que transmite leveza, limpeza e modernidade.
+- `Azul Profundo (#1A2B4C)`: Tipografia principal e títulos, trazendo o peso da autoridade tecnológica.
+- `Lavanda Suave / Roxo Moderno (#6C63FF)`: Pontos de conversão, foco de inputs e interações de destaque.
+- `Alerta Terracota (#E29578)`: Tratamento estético focado em acessibilidade e indicação de erros de preenchimento.
 
 ---
 
-## 📁 Estrutura do Ficheiro
+## 🛠️ Como Funciona a Configuração da Integração
 
-O componente foi estruturado em um único ficheiro auto-contido para facilitar a portabilidade:
-- **HTML5:** Estrutura semântica dos campos de entrada.
-- **CSS3:** Estilização baseada em variáveis, efeitos de transição e animação do *loader*.
-- **JavaScript (Vanilla):** Lógica de comportamento, máscaras dinâmicas, validação e requisições à API.
+Para fins de avaliação ou replicação do projeto acadêmico, o fluxo de dados é estruturado em 3 etapas:
 
----
-Desenvolvido com foco em performance, acessibilidade e conversão para o ecossistema **AnimaLink** 🐾.
+1. **Mapeamento de Inputs:** Os códigos identificadores de campo (`entry.XXXXX`) são extraídos através da opção *"Gerar link preenchido automaticamente"* no painel de edição de um formulário do Google Forms.
+2. **Substituição no JavaScript:** Os IDs reais devem ser inseridos no objeto do script:
+   ```javascript
+   const GOOGLE_ENTRIES = {
+       name: 'entry.SEU_ID_AQUI',
+       email: 'entry.SEU_ID_AQUI',
+       phone: 'entry.SEU_ID_AQUI',
+       message: 'entry.SEU_ID_AQUI'
+   };
