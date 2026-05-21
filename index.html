@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - AnimaLink</title>
+    <style>
+        /* --- ESTILIZAÇÃO MINIMALISTA (PALETA ANIMALINK) --- */
+        :root {
+            --bg-color: #F8FAFF;       /* Branco Gelo */
+            --text-main: #1A2B4C;      /* Azul Profundo */
+            --accent-color: #6C63FF;   /* Lavanda Suave / Roxo Moderno */
+            --error-color: #E29578;    /* Terracota/Alerta sutil */
+            --input-bg: #FFFFFF;
+            --border-color: #D1D5DB;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--input-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(26, 43, 76, 0.05);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 24px;
+            text-align: center;
+            color: var(--text-main);
+        }
+
+        p {
+            text-align: center;
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 15px;
+            color: var(--text-main);
+            background-color: var(--input-bg);
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+        }
+
+        /* Destaque para campos inválidos (Requisito b) */
+        .invalid {
+            border-color: var(--error-color) !important;
+            background-color: #FFF5F2;
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        button:hover {
+            background-color: #554CBF;
+        }
+
+        button:disabled {
+            background-color: #A5A1FF;
+            cursor: not-allowed;
+        }
+
+        /* Loader Opcional (Requisito e.1) */
+        .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mensagens de feedback */
+        .status-msg {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            display: none;
+        }
+        .status-success { color: #10B981; }
+        .status-error { color: var(--error-color); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Fale com a AnimaLink</h2>
+    <p>Tire suas dúvidas ou agende uma demonstração da nossa IA.</p>
+
+    <form id="contactForm" novalidate>
+        <div class="form-group">
+            <label for="name">Nome completo</label>
+            <input type="text" id="name" name="name" placeholder="Seu nome">
+            <div class="error-message">Por favor, insira seu nome.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="seu@email.com">
+            <div class="error-message">Insira um e-mail válido.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Telefone</label>
+            <input type="tel" id="phone" name="phone" placeholder="(31) 99999-9999">
+            <div class="error-message">Insira seu telefone.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="message">Mensagem</label>
+            <textarea id="message" name="message" placeholder="Como podemos ajudar você e seu pet?"></textarea>
+            <div class="error-message">Escreva uma mensagem.</div>
+        </div>
+
+        <button type="submit" id="btnSubmit">
+            <span class="spinner" id="btnSpinner"></span>
+            <span id="btnText">Enviar Mensagem</span>
+        </button>
+
+        <div id="statusSuccess" class="status-msg status-success">Sua mensagem foi enviada com sucesso! 🐾</div>
+        <div id="statusError" class="status-msg status-error">Ops! Ocorreu um erro ao enviar. Tente novamente.</div>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById('contactForm');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const btnSpinner = document.getElementById('btnSpinner');
+    const btnText = document.getElementById('btnText');
+    const statusSuccess = document.getElementById('statusSuccess');
+    const statusError = document.getElementById('statusError');
+    const phoneInput = document.getElementById('phone');
+
+    const GOOGLE_FORMS_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSd_Lk4mxJH5vcUhcGlzHOZTXQsoGTbnAQoiChzZeLM2zkiapQ/formResponse';
+    
+    const GOOGLE_ENTRIES = {
+        name: 'entry.1868023638',
+        email: 'entry.159361875',
+        phone: 'entry.240806834',
+        message: 'entry.1968213284'
+    };
+
+    // --- MÁSCARA DE TELEFONE EM TEMPO REAL ---
+    phoneInput.addEventListener('input', (e) => {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    });
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        resetStatus();
+
+        let isValid = true;
+        const inputs = form.querySelectorAll('input, textarea');
+
+        inputs.forEach(input => {
+            const errorDiv = input.nextElementSibling;
+            
+            // 1. Validação de campo vazio
+            if (!input.value.trim()) {
+                input.classList.add('invalid');
+                if (errorDiv) {
+                    errorDiv.textContent = 'Este campo é obrigatório.';
+                    errorDiv.style.display = 'block';
+                }
+                isValid = false;
+            } 
+            // 2. Validação Avançada de E-mail
+            else if (input.type === 'email' && !validateEmail(input.value)) {
+                input.classList.add('invalid');
+                if (errorDiv) {
+                    errorDiv.textContent = 'Insira um e-mail válido (ex: nome@dominio.com).';
+                    errorDiv.style.display = 'block';
+                }
+                isValid = false;
+            } 
+            // 3. Validação do Telefone (Mínimo de dígitos para um número real)
+            else if (input.type === 'tel' && input.value.replace(/\D/g, '').length < 10) {
+                input.classList.add('invalid');
+                if (errorDiv) {
+                    errorDiv.textContent = 'Insira um telefone válido com DDD.';
+                    errorDiv.style.display = 'block';
+                }
+                isValid = false;
+            } 
+            // Se estiver tudo certo
+            else {
+                input.classList.remove('invalid');
+                if (errorDiv) errorDiv.style.display = 'none';
+            }
+        });
+
+        if (isValid) {
+            btnSubmit.disabled = true;
+            btnSpinner.style.display = 'block';
+            btnText.textContent = 'Enviando...';
+
+            const formData = new FormData();
+            formData.append(GOOGLE_ENTRIES.name, document.getElementById('name').value);
+            formData.append(GOOGLE_ENTRIES.email, document.getElementById('email').value);
+            formData.append(GOOGLE_ENTRIES.phone, document.getElementById('phone').value);
+            formData.append(GOOGLE_ENTRIES.message, document.getElementById('message').value);
+
+            fetch(GOOGLE_FORMS_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: formData
+            })
+            .then(() => {
+                btnSubmit.disabled = false;
+                btnSpinner.style.display = 'none';
+                btnText.textContent = 'Enviar Mensagem';
+                statusSuccess.style.display = 'block';
+                form.reset();
+            })
+            .catch((error) => {
+                btnSubmit.disabled = false;
+                btnSpinner.style.display = 'none';
+                btnText.textContent = 'Tentar Novamente';
+                statusError.style.display = 'block';
+                console.error('Erro:', error);
+            });
+        }
+    });
+
+    // Limpar destaques ao digitar
+    form.querySelectorAll('input, textarea').forEach(input => {
+        input.addEventListener('input', () => {
+            if (input.value.trim()) {
+                input.classList.remove('invalid');
+                const errorDiv = input.nextElementSibling;
+                if (errorDiv) errorDiv.style.display = 'none';
+            }
+        });
+    });
+
+    // EXPRESSÃO REGULAR MAIS RÍGIDA PARA E-MAIL
+    function validateEmail(email) {
+        // Rejeita domínios genéricos curtos demais ou formatos quebrados
+        const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    function resetStatus() {
+        statusSuccess.style.display = 'none';
+        statusError.style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
